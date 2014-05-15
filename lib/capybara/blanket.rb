@@ -1,9 +1,10 @@
 require "capybara/blanket/version"
-require "capybara/blanket/coverage_data"
-require "capybara/blanket/report_generator"
 
 module Capybara
   module Blanket
+    autoload 'CoverageData', 'capybara/blanket/coverage_data'
+    autoload 'ReportGenerator', 'capybara/blanket/report_generator'
+
     class << self
       @@coverage_data = CoverageData.new
 
