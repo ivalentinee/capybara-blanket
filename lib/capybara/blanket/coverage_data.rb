@@ -1,4 +1,4 @@
-module Cucumber
+module Capybara
   module Blanket
     ##
     # Contains the blanketJS data structure

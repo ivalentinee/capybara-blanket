@@ -1,9 +1,9 @@
 require 'haml'
-module Cucumber
+module Capybara
   module Blanket
     class ReportGenerator
       TEMPLATE_DIR = File.join(File.dirname(__FILE__), '../../../templates')
-      
+
       def initialize(mode, coverage_data)
         case mode
         when :html
