@@ -1,8 +1,8 @@
-require "cucumber/blanket/version"
-require "cucumber/blanket/coverage_data"
-require "cucumber/blanket/report_generator"
+require "capybara/blanket/version"
+require "capybara/blanket/coverage_data"
+require "capybara/blanket/report_generator"
 
-module Cucumber
+module Capybara
   module Blanket
     class << self
       @@coverage_data = CoverageData.new
@@ -30,17 +30,17 @@ module Cucumber
         sleep(0.2) until coverage_is_setup?
         page.evaluate_script("blanket.onTestsDone();")
         sleep(0.2) until data_ready?
-        page_data = page.evaluate_script("window.CUCUMBER_BLANKET")
+        page_data = page.evaluate_script("window.CAPYBARA_BLANKET")
         @@coverage_data.accrue! page_data
         return page_data
       end
 
       def coverage_is_setup?
-        @page.evaluate_script("window.CUCUMBER_BLANKET.is_setup") rescue false
+        @page.evaluate_script("window.CAPYBARA_BLANKET.is_setup") rescue false
       end
 
       def data_ready?
-        @page.evaluate_script("window.CUCUMBER_BLANKET.done") rescue false
+        @page.evaluate_script("window.CAPYBARA_BLANKET.done") rescue false
       end
 
       def percent

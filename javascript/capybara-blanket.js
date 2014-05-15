@@ -1,5 +1,5 @@
 (function (){
-  window.CUCUMBER_BLANKET = {
+  window.CAPYBARA_BLANKET = {
     files: {},
     sources: {},
     done: false,
@@ -8,7 +8,7 @@
   /* ADAPTER
    *
    * This blanket.js adapter is designed to autostart coverage
-   * immediately. The other side of this is handled from Cucumber
+   * immediately. The other side of this is handled from Capybara
    *
    * Required blanket commands:
    * blanket.setupCoverage(); // Do it ASAP
@@ -21,7 +21,7 @@
     callback: function() {
       blanket.setupCoverage();
       blanket.onTestStart();
-      window.CUCUMBER_BLANKET.is_setup = true;
+      window.CAPYBARA_BLANKET.is_setup = true;
     }
   });
 
@@ -32,16 +32,15 @@
    * that doesn't actually work so we'll override defaultReporter
    */
   blanket.defaultReporter = function(coverage_results){
-    window.CUCUMBER_BLANKET.files = coverage_results.files;
+    window.CAPYBARA_BLANKET.files = coverage_results.files;
     // Strangely enough it looks like we need to iterate in order to grab the `source`
     // data which is necessary to know which lines of code are being reported on.
     var files = Object.keys(coverage_results.files);
     for (var i = 0, l = files.length; i < l; i ++) {
       var file = files[i];
-      window.CUCUMBER_BLANKET.sources[file] = window.CUCUMBER_BLANKET.files[file].source;
+      window.CAPYBARA_BLANKET.sources[file] = window.CAPYBARA_BLANKET.files[file].source;
     }
-    window.CUCUMBER_BLANKET.done = true;
-    // Now we can grab all this on the selenium side through window.CUCUMBER_BLANKET
+    window.CAPYBARA_BLANKET.done = true;
+    // Now we can grab all this on the selenium side through window.CAPYBARA_BLANKET
   };
 })();
-

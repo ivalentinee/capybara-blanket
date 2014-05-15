@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Cucumber::Blanket do
+describe Capybara::Blanket do
 
   let(:page) { FakePage.new }
   before(:each) do
@@ -51,7 +51,7 @@ describe Cucumber::Blanket do
   end
 
   describe "#write_html_report" do
-    let(:path) { '/tmp/cucumber-blanket-report.html' }
+    let(:path) { '/tmp/capybara-blanket-report.html' }
     before { FileUtils.rm(path) if File.exists?(path) }
 
     it "generates an HTML file at the desired location" do
