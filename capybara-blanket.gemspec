@@ -6,8 +6,8 @@ require 'capybara/blanket/version'
 Gem::Specification.new do |spec|
   spec.name          = "capybara-blanket"
   spec.version       = Capybara::Blanket::VERSION
-  spec.authors       = ["Keyvan Fatehi"]
-  spec.email         = ["keyvanfatehi@gmail.com"]
+  spec.authors       = ["Keyvan Fatehi", "Valentine Ionov"]
+  spec.email         = ["valentine.emperor@gmail.com"]
   spec.description   = %q{Extract Blanket.js code coverage data from within a Ruby Capybara environment}
   spec.summary       = %q{Extract Blanket.js code coverage data from within a Ruby Capybara environment}
   spec.homepage      = "https://github.com/vemperor/capybara-blanket"
