@@ -44,7 +44,7 @@ module Capybara
         @page.evaluate_script("window.CAPYBARA_BLANKET.done") rescue false
       end
 
-      def percent
+      def coverage
         total_lines = 0
         covered_lines = 0
         self.files.each do |filename, linedata|
