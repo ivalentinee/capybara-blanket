@@ -58,6 +58,11 @@ module Capybara
         end
       end
 
+      def write_report
+        FileUtils.mkdir_p 'coverage'
+        Capybara::Blanket.write_html_report 'coverage/javascript_coverage.html'
+      end
+
       def write_html_report path
         generator = ReportGenerator.new(:html, self)
         File.open(path, 'w') do |file|
