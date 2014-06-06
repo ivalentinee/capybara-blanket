@@ -1,5 +1,7 @@
 # Capybara::Blanket
 
+[![Build Status](https://travis-ci.org/vemperor/capybara-blanket.svg?branch=master)](https://travis-ci.org/vemperor/capybara-blanket)
+
 Originally developed by [Keyvan Fatehi](https://github.com/keyvanfatehi) as [cucumer-blanket](https://github.com/keyvanfatehi/cucumber-blanket).
 
 Works to extract accumulated [Blanket.js](https://github.com/alex-seville/blanket) coverage data
