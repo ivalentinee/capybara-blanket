@@ -15,11 +15,11 @@ describe Capybara::Blanket::CoverageData do
       page_data
     end
     it "squishes coverage datasets together" do
-      covdata["files"].first[1][0].should be_nil
-      covdata["files"].first[1][1].should eq 1
+      expect( covdata["files"].first[1][0] ).to be_nil
+      expect( covdata["files"].first[1][1] ).to eq 1
       covdata.accrue! new_page_data
-      covdata["files"].first[1][0].should eq 3
-      covdata["files"].first[1][1].should eq 2
+      expect( covdata["files"].first[1][0] ).to eq 3
+      expect( covdata["files"].first[1][1] ).to eq 2
     end
 
     context "filename exists but is not iterable" do
@@ -40,28 +40,28 @@ describe Capybara::Blanket::CoverageData do
 
   describe "#files" do
     it "shorthand for accessing the files hash" do
-      covdata.files.should eq covdata.data['files']
-      covdata.files.should be_a Hash
+      expect( covdata.files ).to eq covdata.data['files']
+      expect( covdata.files ).to be_a Hash
     end
     it "has a shortcut that produces the same data" do
-      Capybara::Blanket.files.should eq covdata.files
+      expect( Capybara::Blanket.files ).to eq covdata.files
     end
   end
 
   describe "#sources" do
     it "shorthand for accessing the sources hash" do
-      covdata.sources.should eq covdata.data['sources']
-      covdata.sources.should be_a Hash
+      expect( covdata.sources ).to eq covdata.data['sources']
+      expect( covdata.sources ).to be_a Hash
     end
     it "has a shortcut that produces the same data" do
-      Capybara::Blanket.sources.should eq covdata.sources
+      expect( Capybara::Blanket.sources ).to eq covdata.sources
     end
   end
 
   describe "#percent_covered" do
     it "returns the percent covered for a given script" do
       res = covdata.percent_covered covdata.files.keys[1]
-      res.should eq 60.0
+      expect( res ).to eq 60.0
     end
   end
 end
