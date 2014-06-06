@@ -1,127 +1,46 @@
-# Cucumber::Blanket
+# Capybara::Blanket
 
-Works to extract accumulated [Blanket.js](https://github.com/alex-seville/blanket) coverage data 
-from the browser from a Cucumber environment. Accumulated, in this context, means that coverage data
+[![Build Status](https://travis-ci.org/vemperor/capybara-blanket.svg?branch=master)](https://travis-ci.org/vemperor/capybara-blanket)
+
+Originally developed by [Keyvan Fatehi](https://github.com/keyvanfatehi) as [cucumer-blanket](https://github.com/keyvanfatehi/cucumber-blanket).
+
+Works to extract accumulated [Blanket.js](https://github.com/alex-seville/blanket) coverage data
+from the browser from a Capybara environment. Accumulated, in this context, means that coverage data
 is accumulated from scenario to scenario, in an additive fashion.
+
+This gem is under development, so I **dont recommend to use it now** — everything could change shortly.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'cucumber-blanket'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install cucumber-blanket
+Yet not available.
 
 ## Usage
 
-You should be using Cucumber
+Supports minitest only for now.
 
-Require this gem at the top of `features/support/env.rb` or before using it.
+To use this gem, you need to add those lines in your test_helper:
 
-```ruby
-require 'cucumber/blanket'
-```
+    require 'capybara/blanket'
+    require 'capybara/blanket/minitest'
 
-Install blanket.js
+If you use sprockets, you need to divide your js files vendor files and application, so you wont get vendor files coverage.
 
-Two javascript files are bundled;
-* blanket.js -- the library itself
-* cucumber-blanket.js -- a very simple modification
+Then add 'data-cover' attriute to all files you need coverage for:
 
-These two files must be loaded on the front-end --- be sure to follow
-blanket.js's specifications (you must add the attribute `data-cover` to
-any scripts you want blanket.js to instrument)
+    ...
+    = javascript_include_tag "vendor"
+    = javascript_include_tag "application", "data-cover" => true
+    ...
 
-cucumber-blanket.js initiates a coverage report session -- you are
-expected to complete the session from the Cucumber side. In this design,
-we make use of Cucumber's After hook: 
+Then you need to add 'blanket' and 'capybara-blanket' files to you template:
 
-```ruby
-After do |scenario|
-  # Grab code coverage from the frontend
-  # Currently this adds >1 second to every scenario, but it's worth it
-  Cucumber::Blanket.extract_from page
-end
-```
+    = javascript_include_tag 'blanket'
+    = javascript_include_tag 'capybara-blanket'
 
-Of course every scenario will touch on different parts of your code, as
-such Cucumber::Blanket OR's the lines. In other words, if line 10 of
-File A was covered in Scenario X, but not in Scenario Y, line 10 is
-considered covered when Cucumber has finished running.
+After all, you need to get coverage data after every page visiting in your tests like this:
 
-Finally, to gain access to the accumulated coverage data, you can use the shorthand `Cucumber::Blanket.files`:
-
-```ruby
-after_exit do
-  covdata =  # do something with it
-  File.open("tmp/coverage.json", "w") do |file|
-    file.write Cucumber::Blanket.files.to_json
-    # writes out JSON of this form of ruby hash:
-    # => {"http://127.0.0.1:32344/js/collections/assets.js"=>
-    #  [3, 3, 3, nil, 3, nil, nil, nil, 0, 0, nil, 0, nil, nil, nil, nil, 0, 0]}
-    # {filename=>[lineCov,lineCov,lineCov]}
-    # At this stage you can fetch the files and create a nice HTML report, etc
-  end
-end
-```
-
-I have both of these in my `features/support/hooks.rb` file. As far as doing something useful
-with the coverage data, that's left up to the user, another gem, or maybe blanket.js itself from Node.js.
-
-## Other Features
-
-### Percent
-
-You can use `Cucumber::Blanket.percent` to get a float value of coverage of known lines of code.
-
-For example, you can do something like this to watch coverage increasing on every scenario:
-
-```ruby
-After do |scenario|
-  old_pct = Cucumber::Blanket.percent
-  Cucumber::Blanket.extract_from page
-  current_pct = Cucumber::Blanket.percent
-  pct_added = current_pct - old_pct
-  STDOUT.puts "Coverage: #{current_pct}% (+#{pct_added}%)"
-end
-
-at_exit do
-  STDOUT.puts "Final coverage: #{Cucumber::Blanket.percent}%"
-end
-```
-
-### Write HTML Report
-
-After you've captured some coverage data, you can create an HTML report
-like so:
-
-```ruby
-Cucumber::Blanket.write_html_report File.join(File.dirname(__FILE__), '../../coverage.html')
-```
-
-I like to put this in `after_exit` in my Cucumber `hooks.rb` file
-
-## Dev Notes
-
-To create the `spec/fixtures/simple.json` with new real data, add this line
-to Cucumber::Blanket#extract_from once you have a handle to page_data:
-
-```ruby
-File.open("tmp/out.json", 'w'){|f| f.write page_data.to_json}
-```
-
-Run it through jsbeautifier and add it
-
-### Report Generation Preview
-
-Run the specs with the environment variable `showreport` set. e.g.
-`showreport=1 bundle exec rspec spec`
+    page = visit '/sessions/new'
+    Capybara::Blanket.extract_from page
 
 ## Contributing
 

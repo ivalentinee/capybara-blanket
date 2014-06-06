@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Cucumber::Blanket do
+describe Capybara::Blanket do
 
   let(:page) { FakePage.new }
   before(:each) do
@@ -40,18 +40,18 @@ describe Cucumber::Blanket do
 
   describe "#percent" do
     it "returns total percent coverage of known lines of code as float" do
-      subject.percent.should eq 75.0
+      subject.coverage.should eq 75.0
     end
     context "no data harvested yet" do
       it "returns zero" do
         subject.reset!
-        subject.percent.should eq 0.0
+        subject.coverage.should eq 0.0
       end
     end
   end
 
   describe "#write_html_report" do
-    let(:path) { '/tmp/cucumber-blanket-report.html' }
+    let(:path) { '/tmp/capybara-blanket-report.html' }
     before { FileUtils.rm(path) if File.exists?(path) }
 
     it "generates an HTML file at the desired location" do

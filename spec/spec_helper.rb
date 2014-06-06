@@ -1,6 +1,6 @@
 require 'pry'
 require 'json'
-require 'cucumber/blanket'
+require 'capybara/blanket'
 
 class FakePage
   attr_reader :coverage_data
@@ -15,13 +15,12 @@ class FakePage
   end
 
   def evaluate_script script
-    if script == "window.CUCUMBER_BLANKET"
+    if script == "window.CAPYBARA_BLANKET"
       self.coverage_data
-    elsif script == "window.CUCUMBER_BLANKET.done"
+    elsif script == "window.CAPYBARA_BLANKET.done"
       true
-    elsif script == "window.CUCUMBER_BLANKET.is_setup"
+    elsif script == "window.CAPYBARA_BLANKET.is_setup"
       true
     end
   end
 end
-

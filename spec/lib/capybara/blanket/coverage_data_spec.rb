@@ -1,11 +1,11 @@
 require 'spec_helper'
 
-describe Cucumber::Blanket::CoverageData do
-  before(:each) { Cucumber::Blanket.reset! }
+describe Capybara::Blanket::CoverageData do
+  before(:each) { Capybara::Blanket.reset! }
   let(:page) { FakePage.new }
   let(:covdata) do
-    Cucumber::Blanket.extract_from(page)
-    Cucumber::Blanket.coverage_data
+    Capybara::Blanket.extract_from(page)
+    Capybara::Blanket.coverage_data
   end
 
   describe "#accrue!" do
@@ -44,7 +44,7 @@ describe Cucumber::Blanket::CoverageData do
       covdata.files.should be_a Hash
     end
     it "has a shortcut that produces the same data" do
-      Cucumber::Blanket.files.should eq covdata.files
+      Capybara::Blanket.files.should eq covdata.files
     end
   end
 
@@ -54,7 +54,7 @@ describe Cucumber::Blanket::CoverageData do
       covdata.sources.should be_a Hash
     end
     it "has a shortcut that produces the same data" do
-      Cucumber::Blanket.sources.should eq covdata.sources
+      Capybara::Blanket.sources.should eq covdata.sources
     end
   end
 
