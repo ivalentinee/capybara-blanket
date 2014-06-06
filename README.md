@@ -23,7 +23,7 @@ To use this gem, you need to add those lines in your test_helper:
     require 'capybara/blanket'
     require 'capybara/blanket/minitest'
 
-If you use sprockets, you need to divide your js files vendor files and application, so you wont get vendor files coverage.
+If you use asset pipeline, you need to divide your js files vendor files and application, so you wont get vendor files coverage.
 
 Then add 'data-cover' attriute to all files you need coverage for:
 
