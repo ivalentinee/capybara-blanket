@@ -10,13 +10,13 @@ describe Capybara::Blanket do
 
   describe "#files" do
     it "is a shortcut for coverage_data#files" do
-      subject.files.should eq subject.coverage_data.files
+      expect( subject.files ).to eq subject.coverage_data.files
     end
   end
 
   describe "#sources" do
     it "is a shortcut for coverage_data#sources" do
-      subject.sources.should eq subject.coverage_data.sources
+      expect( subject.sources ).to eq subject.coverage_data.sources
     end
   end
 
@@ -25,13 +25,13 @@ describe Capybara::Blanket do
       let(:cov) do
         subject.coverage_data
       end
-      specify { cov.should have_key 'files' }
+      specify { expect( cov ).to have_key 'files' }
       it "shows lines of coverage for each javascript file" do
         cov['files'].each do |filename,linedata|
-          filename.should match(/.js$/)
+          expect( filename ).to match(/.js$/)
           linedata.each_with_index do |cov_stats,line_number|
-            line_number.should be_a Integer
-            (cov_stats || 0).should be_a Integer # can be nil
+            expect( line_number ).to be_a Integer
+            expect( cov_stats || 0 ).to be_a Integer # can be nil
           end
         end
       end
@@ -40,12 +40,12 @@ describe Capybara::Blanket do
 
   describe "#percent" do
     it "returns total percent coverage of known lines of code as float" do
-      subject.coverage.should eq 75.0
+      expect( subject.coverage ).to eq 75.0
     end
     context "no data harvested yet" do
       it "returns zero" do
         subject.reset!
-        subject.coverage.should eq 0.0
+        expect( subject.coverage ).to eq 0.0
       end
     end
   end
@@ -56,7 +56,7 @@ describe Capybara::Blanket do
 
     it "generates an HTML file at the desired location" do
       subject.write_html_report path
-      File.exists?(path).should be_true
+      expect( File.exists? path ).to be_true
       system("open #{path}") if ENV['showreport']
     end
   end
