@@ -42,7 +42,7 @@
       %thead
         %tr
           %th Script
-          %th Coverage #{@data.percent}%
+          %th Coverage #{@data.coverage}%
       %tbody
         - @data.files.each do |script_url, covdata|
           - lines = @data.sources[script_url]

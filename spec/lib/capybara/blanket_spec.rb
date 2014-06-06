@@ -40,12 +40,12 @@ describe Capybara::Blanket do
 
   describe "#percent" do
     it "returns total percent coverage of known lines of code as float" do
-      subject.percent.should eq 75.0
+      subject.coverage.should eq 75.0
     end
     context "no data harvested yet" do
       it "returns zero" do
         subject.reset!
-        subject.percent.should eq 0.0
+        subject.coverage.should eq 0.0
       end
     end
   end

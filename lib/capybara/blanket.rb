@@ -1,9 +1,11 @@
 require "capybara/blanket/version"
-require "capybara/blanket/coverage_data"
-require "capybara/blanket/report_generator"
 
 module Capybara
   module Blanket
+    autoload 'CoverageData', 'capybara/blanket/coverage_data'
+    autoload 'Extractor', 'capybara/blanket/extractor'
+    autoload 'ReportGenerator', 'capybara/blanket/report_generator'
+
     class << self
       @@coverage_data = CoverageData.new
 
@@ -19,31 +21,13 @@ module Capybara
         self.coverage_data.send(*args)
       end
 
-      # Grab code coverage from the frontend
-      # Currently this adds something like a few second or more to every scenario
-      # The waits are lame but here's what it's trying to avoid
-      #    unknown error: You must call blanket.setupCoverage() first.
-      #       (Session info: chrome=31.0.1650.63)
-      #       (Driver info: chromedriver=2.6.232908,platform=Mac OS X 10.9.1 x86_64) (Selenium::WebDriver::Error::UnknownError)
       def extract_from page
-        @page = page
-        sleep(0.2) until coverage_is_setup?
-        page.evaluate_script("blanket.onTestsDone();")
-        sleep(0.2) until data_ready?
-        page_data = page.evaluate_script("window.CAPYBARA_BLANKET")
+        page_data = Extractor.extract page
         @@coverage_data.accrue! page_data
         return page_data
       end
 
-      def coverage_is_setup?
-        @page.evaluate_script("window.CAPYBARA_BLANKET.is_setup") rescue false
-      end
-
-      def data_ready?
-        @page.evaluate_script("window.CAPYBARA_BLANKET.done") rescue false
-      end
-
-      def percent
+      def coverage
         total_lines = 0
         covered_lines = 0
         self.files.each do |filename, linedata|
@@ -59,6 +43,11 @@ module Capybara
         else
           return 0.0
         end
+      end
+
+      def write_report
+        FileUtils.mkdir_p 'coverage'
+        Capybara::Blanket.write_html_report 'coverage/javascript_coverage.html'
       end
 
       def write_html_report path
