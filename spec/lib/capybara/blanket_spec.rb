@@ -25,7 +25,7 @@ describe Capybara::Blanket do
       let(:cov) do
         subject.coverage_data
       end
-      specify { expect( cov ).to have_key 'files' }
+      specify { expect( cov['files'] ).to be}
       it "shows lines of coverage for each javascript file" do
         cov['files'].each do |filename,linedata|
           expect( filename ).to match(/.js$/)
@@ -56,7 +56,7 @@ describe Capybara::Blanket do
 
     it "generates an HTML file at the desired location" do
       subject.write_html_report path
-      expect( File.exists? path ).to be_true
+      expect( File.exists? path ).to be_truthy
       system("open #{path}") if ENV['showreport']
     end
   end
