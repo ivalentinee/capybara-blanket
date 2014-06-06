@@ -3,6 +3,7 @@ require "capybara/blanket/version"
 module Capybara
   module Blanket
     autoload 'CoverageData', 'capybara/blanket/coverage_data'
+    autoload 'Extractor', 'capybara/blanket/extractor'
     autoload 'ReportGenerator', 'capybara/blanket/report_generator'
 
     class << self
@@ -21,23 +22,9 @@ module Capybara
       end
 
       def extract_from page
-        if page
-          @page = page
-          sleep(0.2) until coverage_is_setup?
-          page.evaluate_script("blanket.onTestsDone();")
-          sleep(0.2) until data_ready?
-          page_data = page.evaluate_script("window.CAPYBARA_BLANKET")
-          @@coverage_data.accrue! page_data
-          return page_data
-        end
-      end
-
-      def coverage_is_setup?
-        @page.evaluate_script("window.CAPYBARA_BLANKET.is_setup") rescue false
-      end
-
-      def data_ready?
-        @page.evaluate_script("window.CAPYBARA_BLANKET.done") rescue false
+        page_data = Extractor.extract page
+        @@coverage_data.accrue! page_data
+        return page_data
       end
 
       def coverage
