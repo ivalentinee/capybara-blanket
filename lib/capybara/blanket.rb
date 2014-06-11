@@ -4,6 +4,7 @@ module Capybara
   module Blanket
     autoload 'CoverageData', 'capybara/blanket/coverage_data'
     autoload 'Extractor', 'capybara/blanket/extractor'
+    autoload 'Waiter', 'capybara/blanket/waiter'
     autoload 'ReportGenerator', 'capybara/blanket/report_generator'
 
     class << self
