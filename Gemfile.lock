@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    capybara-blanket (0.4.1)
+    capybara-blanket (0.4.2)
       haml
 
 GEM
