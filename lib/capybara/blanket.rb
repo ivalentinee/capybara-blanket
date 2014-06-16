@@ -1,4 +1,5 @@
 require "capybara/blanket/version"
+require "capybara/blanket/rails"
 
 module Capybara
   module Blanket
