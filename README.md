@@ -8,11 +8,13 @@ Works to extract accumulated [Blanket.js](https://github.com/alex-seville/blanke
 from the browser from a Capybara environment. Accumulated, in this context, means that coverage data
 is accumulated from scenario to scenario, in an additive fashion.
 
-This gem is under development, so I **dont recommend to use it now** — everything could change shortly.
+This gem supports rails 4.0 and newer.
 
 ## Installation
 
-Yet not available.
+Add to your gemfile:
+
+    gem 'capybara-blanket', git: 'https://github.com/vemperor/capybara-blanket.git'
 
 ## Usage
 
@@ -21,11 +23,6 @@ Supports minitest only for now.
 To use this gem, you need to add those lines in your test_helper:
 
     require 'capybara/blanket'
-    require 'capybara/blanket/minitest'
-
-or for rails:
-
-    require 'capybara/blanket/rails'
     require 'capybara/blanket/minitest'
 
 If you use asset pipeline, you need to divide your js files vendor files and application, so you wont get vendor files coverage.
