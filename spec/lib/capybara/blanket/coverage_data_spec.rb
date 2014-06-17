@@ -61,10 +61,16 @@ describe Capybara::Blanket::CoverageData do
     end
   end
 
-  describe "#percent_covered" do
+  describe "#file_coverage" do
     it "returns the percent covered for a given script" do
-      res = covdata.percent_covered covdata.files.keys[1]
+      res = covdata.file_coverage covdata.files.keys[1]
       expect( res ).to eq 60.0
+    end
+  end
+
+  describe "#coverage" do
+    it "returns total percent coverage of known lines of code as float" do
+      expect( covdata.coverage ).to eq 75.0
     end
   end
 end

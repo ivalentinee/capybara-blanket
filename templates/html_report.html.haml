@@ -54,4 +54,4 @@
                   - cov = covdata[line_no]
                   %pre{:class=>(cov.nil? ? "ignored" : (cov == 0 ? 'missed' : 'covered'))}
                     = line.gsub(' ', '&nbsp;')
-            %td #{@data.percent_covered(script_url)} %
+            %td #{@data.file_coverage(script_url)} %
