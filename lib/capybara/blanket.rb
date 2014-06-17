@@ -7,6 +7,7 @@ module Capybara
     autoload 'Extractor', 'capybara/blanket/extractor'
     autoload 'Waiter', 'capybara/blanket/waiter'
     autoload 'ReportGenerator', 'capybara/blanket/report_generator'
+    autoload 'ReportWriter', 'capybara/blanket/report_writer'
 
     class << self
       @@test_started = false
@@ -44,22 +45,19 @@ module Capybara
         @@test_started
       end
 
-      def write_report
-        FileUtils.mkdir_p 'coverage'
-        write_html_report 'coverage/javascript_coverage.html'
-      end
-
-      def write_html_report path
+      def write_html_report
         generator = ReportGenerator.new(:html, self)
-        File.open(path, 'w') do |file|
-          file.write(generator.render)
-        end
+        ReportWriter.write_report report_path, generator.render
       end
 
       private
 
       def test_started!
         @@test_started = true
+      end
+
+      def report_path
+        'coverage/js-coverage.html'
       end
     end
   end
