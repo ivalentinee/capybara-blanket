@@ -1,7 +1,10 @@
 require 'spec_helper'
 
 describe Capybara::Blanket::CoverageData do
-  before(:each) { Capybara::Blanket.reset! }
+  before(:each) do
+    Capybara::Blanket.start
+  end
+
   let(:page) { FakePage.new }
   let(:covdata) do
     Capybara::Blanket.extract_from(page)
