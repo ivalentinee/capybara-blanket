@@ -60,6 +60,7 @@ DEPENDENCIES
   capybara-blanket!
   file-utils
   guard-rspec
+  haml
   pry
   rake
   rspec (~> 2.14)
