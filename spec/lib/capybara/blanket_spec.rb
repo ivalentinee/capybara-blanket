@@ -4,7 +4,7 @@ describe Capybara::Blanket do
 
   let(:page) { FakePage.new }
   before(:each) do
-    subject.reset!
+    subject.start
     subject.extract_from(page)
   end
 
