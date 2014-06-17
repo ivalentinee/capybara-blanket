@@ -38,9 +38,9 @@ describe Capybara::Blanket do
     end
   end
 
-  describe "#percent" do
-    it "returns total percent coverage of known lines of code as float" do
-      expect( subject.coverage ).to eq 75.0
+  describe "#coverage" do
+    it "returns total coverage of known lines of code as float" do
+      expect( subject.coverage ).to be_kind_of Float
     end
     context "no data harvested yet" do
       it "returns zero" do

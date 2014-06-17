@@ -31,27 +31,13 @@ module Capybara
       def extract_from page
         if test_started?
           page_data = Extractor.extract page
-          @@coverage_data.accrue! page_data
+          coverage_data.accrue! page_data
           return page_data
         end
       end
 
       def coverage
-        total_lines = 0
-        covered_lines = 0
-        self.files.each do |filename, linedata|
-          linedata.compact.each do |cov_stat|
-            if cov_stat > 0
-              covered_lines += 1
-            end
-            total_lines += 1
-          end
-        end
-        if total_lines > 0
-          return ((covered_lines.to_f / total_lines)*100).round(2)
-        else
-          return 0.0
-        end
+        coverage_data.coverage
       end
 
       def test_started?
