@@ -13,6 +13,7 @@ group :development, :test do
 end
 
 group :test do
+  gem 'coveralls', require: false
   gem "rspec", "~> 2.14"
   gem "guard-rspec"
 end
