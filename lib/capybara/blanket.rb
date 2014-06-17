@@ -7,9 +7,15 @@ module Capybara
     autoload 'Extractor', 'capybara/blanket/extractor'
     autoload 'Waiter', 'capybara/blanket/waiter'
     autoload 'ReportGenerator', 'capybara/blanket/report_generator'
+    autoload 'ReportWriter', 'capybara/blanket/report_writer'
 
     class << self
-      @@coverage_data = CoverageData.new
+      @@test_started = false
+
+      def start
+        @@coverage_data = CoverageData.new
+        test_started!
+      end
 
       def coverage_data
         @@coverage_data
@@ -24,39 +30,34 @@ module Capybara
       end
 
       def extract_from page
-        page_data = Extractor.extract page
-        @@coverage_data.accrue! page_data
-        return page_data
+        if test_started?
+          page_data = Extractor.extract page
+          coverage_data.accrue! page_data
+          return page_data
+        end
       end
 
       def coverage
-        total_lines = 0
-        covered_lines = 0
-        self.files.each do |filename, linedata|
-          linedata.compact.each do |cov_stat|
-            if cov_stat > 0
-              covered_lines += 1
-            end
-            total_lines += 1
-          end
-        end
-        if total_lines > 0
-          return ((covered_lines.to_f / total_lines)*100).round(2)
-        else
-          return 0.0
-        end
+        coverage_data.coverage
       end
 
-      def write_report
-        FileUtils.mkdir_p 'coverage'
-        Capybara::Blanket.write_html_report 'coverage/javascript_coverage.html'
+      def test_started?
+        @@test_started
       end
 
-      def write_html_report path
+      def write_html_report
         generator = ReportGenerator.new(:html, self)
-        File.open(path, 'w') do |file|
-          file.write(generator.render)
-        end
+        ReportWriter.write_report report_path, generator.render
+      end
+
+      private
+
+      def test_started!
+        @@test_started = true
+      end
+
+      def report_path
+        'coverage/js-coverage.html'
       end
     end
   end

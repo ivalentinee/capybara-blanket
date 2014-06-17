@@ -4,7 +4,7 @@ describe Capybara::Blanket do
 
   let(:page) { FakePage.new }
   before(:each) do
-    subject.reset!
+    subject.start
     subject.extract_from(page)
   end
 
@@ -38,26 +38,15 @@ describe Capybara::Blanket do
     end
   end
 
-  describe "#percent" do
-    it "returns total percent coverage of known lines of code as float" do
-      expect( subject.coverage ).to eq 75.0
+  describe "#coverage" do
+    it "returns total coverage of known lines of code as float" do
+      expect( subject.coverage ).to be_kind_of Float
     end
     context "no data harvested yet" do
       it "returns zero" do
         subject.reset!
         expect( subject.coverage ).to eq 0.0
       end
-    end
-  end
-
-  describe "#write_html_report" do
-    let(:path) { '/tmp/capybara-blanket-report.html' }
-    before { FileUtils.rm(path) if File.exists?(path) }
-
-    it "generates an HTML file at the desired location" do
-      subject.write_html_report path
-      expect( File.exists? path ).to be_truthy
-      system("open #{path}") if ENV['showreport']
     end
   end
 end

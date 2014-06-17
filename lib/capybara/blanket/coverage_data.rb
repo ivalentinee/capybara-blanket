@@ -23,7 +23,7 @@ module Capybara
         self.data['sources']
       end
 
-      def percent_covered script_url
+      def file_coverage script_url
         total_lines = 0
         covered_lines = 0
         self.files[script_url].compact.each do |cov_stat|
@@ -31,6 +31,24 @@ module Capybara
             covered_lines += 1
           end
           total_lines += 1
+        end
+        if total_lines > 0
+          return ((covered_lines.to_f / total_lines)*100).round(2)
+        else
+          return 0.0
+        end
+      end
+
+      def coverage
+        total_lines = 0
+        covered_lines = 0
+        self.files.each do |filename, linedata|
+          linedata.compact.each do |cov_stat|
+            if cov_stat > 0
+              covered_lines += 1
+            end
+            total_lines += 1
+          end
         end
         if total_lines > 0
           return ((covered_lines.to_f / total_lines)*100).round(2)
