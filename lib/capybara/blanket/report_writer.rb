@@ -7,6 +7,7 @@ module Capybara
           File.open(path, 'w') do |file|
             file.write(report)
           end
+          puts "Javascript coverage report generated to #{File.expand_path path}"
         end
 
         def makepath path
