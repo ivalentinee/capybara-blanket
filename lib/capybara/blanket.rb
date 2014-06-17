@@ -45,15 +45,19 @@ module Capybara
         @@test_started
       end
 
-      def write_report
+      def write_html_report
         generator = ReportGenerator.new(:html, self)
-        ReportWriter.write_report 'coverage/js-coverage.html', generator.render
+        ReportWriter.write_report report_path, generator.render
       end
 
       private
 
       def test_started!
         @@test_started = true
+      end
+
+      def report_path
+        'coverage/js-coverage.html'
       end
     end
   end
