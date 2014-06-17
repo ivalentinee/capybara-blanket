@@ -9,7 +9,12 @@ module Capybara
     autoload 'ReportGenerator', 'capybara/blanket/report_generator'
 
     class << self
-      @@coverage_data = CoverageData.new
+      @@test_started = false
+
+      def start
+        @@coverage_data = CoverageData.new
+        test_started!
+      end
 
       def coverage_data
         @@coverage_data
@@ -24,9 +29,11 @@ module Capybara
       end
 
       def extract_from page
-        page_data = Extractor.extract page
-        @@coverage_data.accrue! page_data
-        return page_data
+        if test_started?
+          page_data = Extractor.extract page
+          @@coverage_data.accrue! page_data
+          return page_data
+        end
       end
 
       def coverage
@@ -47,9 +54,13 @@ module Capybara
         end
       end
 
+      def test_started?
+        @@test_started
+      end
+
       def write_report
         FileUtils.mkdir_p 'coverage'
-        Capybara::Blanket.write_html_report 'coverage/javascript_coverage.html'
+        write_html_report 'coverage/javascript_coverage.html'
       end
 
       def write_html_report path
@@ -57,6 +68,12 @@ module Capybara
         File.open(path, 'w') do |file|
           file.write(generator.render)
         end
+      end
+
+      private
+
+      def test_started!
+        @@test_started = true
       end
     end
   end
