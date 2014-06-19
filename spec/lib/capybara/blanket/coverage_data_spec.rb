@@ -14,15 +14,15 @@ describe Capybara::Blanket::CoverageData do
   describe "#accrue!" do
     let(:new_page_data) do
       page_data = Marshal.load(Marshal.dump(covdata.data))
-      page_data['files'].first[1][0] = 3 # add coverage on that line
+      page_data['files'].first[1][1] = 3 # add coverage on that line
       page_data
     end
     it "squishes coverage datasets together" do
-      expect( covdata["files"].first[1][0] ).to be_nil
+      expect( covdata["files"].first[1][0] ).to eq 1
       expect( covdata["files"].first[1][1] ).to eq 1
       covdata.accrue! new_page_data
-      expect( covdata["files"].first[1][0] ).to eq 3
-      expect( covdata["files"].first[1][1] ).to eq 2
+      expect( covdata["files"].first[1][0] ).to eq 4
+      expect( covdata["files"].first[1][1] ).to eq 1
     end
 
     context "filename exists but is not iterable" do

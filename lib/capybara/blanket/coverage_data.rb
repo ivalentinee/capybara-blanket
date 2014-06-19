@@ -68,7 +68,7 @@ module Capybara
               # accrue coverage data, meaning:
               # get a handle on existing linedata and iterate
               @data['files'][filename].each_with_index do |cov_stat, line_no|
-                new_cov_stat = page_data['files'][filename][line_no]
+                new_cov_stat = page_data['files'][filename][line_no + 1]
                 # first we need to deal with nils, as we cannot add them
                 # either side can be nil -- and we want to be strictly additive
                 next if new_cov_stat.nil? # this is not additive, next line
@@ -85,7 +85,7 @@ module Capybara
               end
             else # if it does not exist
               # add it to 'files' as is
-              @data['files'][filename] = linedata
+              @data['files'][filename] = linedata.drop(1) # have to remove initial null first value
             end
           end
 
