@@ -2,6 +2,9 @@ require 'pry'
 require 'json'
 require 'capybara/blanket'
 
+require 'coveralls'
+Coveralls.wear!
+
 class FakePage
   attr_reader :coverage_data
 
